@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin/cars"><button>Turn back</button></a>
+<div>
+
+<b>Car Editor</b>
+</div>
+
+<div>Current car</div>
+<div>
+    <a>CarId {{id}}</a>
+    <br/>
+    <a>CarName {{name}}</a>
+    <br/>
+    <a>CarMileage {{mileage}}</a>
+    <br/>
+    <a>CarFuelConsumption {{fuelConsumption}}</a>
+    <br/>
+    <a>CarEnginePower {{enginePower}}</a>
+    <br/>
+    <a>CarCapacity {{capacity}}</a>
+    <br/>
+    <a>CarStatus {{status}}</a>
+</div>
+
+
+<a href="/admin/cars/{{id}}/deleteCar"><button>Delete driver</button></a>
+
+<div>Change car status</div>
+<form method="post">
+    <label>
+        <select name="select" size="3" multiple>
+            <option selected value="s1">isFree</option>
+            <option value="s2">isAtWork</option>
+            <option value="s3">isAtService</option>
+        </select>
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Change Car Status</button>
+</form>
+
+{{#response}}
+    {{response}}
+{{/response}}
+</body>

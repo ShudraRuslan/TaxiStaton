@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<head>
+    <title>OrderResponseView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/client">
+    <button>Turn back</button>
+</a>
+
+<div> User info</div>
+
+<br/>
+<div>
+    <a>UserId {{id}}</a>
+    <br/>
+    <a>Username {{username}}</a>
+    <br/>
+    <a>Cash {{cash}}</a>
+    <br/>
+    <a>IsVip {{vip}}</a>
+</div>
+
+<form method="post">
+    <label>
+        <input type="text" name="password" placeholder="Fill in your new password" value="">
+    </label>
+    <label>
+        <input type="text" name="username" placeholder="Fill in your new username">
+    </label>
+    <label>
+        <input type="number" name="additionalCash" placeholder="Fil in additional cash">
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Save changes</button>
+    <button type="reset">Reset</button>
+</form>
+</body>
+

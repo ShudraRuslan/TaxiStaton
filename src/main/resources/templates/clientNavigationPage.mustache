@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<dv>
+    <form action="/logout" method="post">
+        <input type="submit" value="Sign Out"/>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    </form>
+</dv>
+
+<body>
+<a href="/"><button>Turn back</button></a>
+
+<div>Hello, client</div>
+
+<a href="/client/order">Order Page</a>
+<br/>
+<a href="/client/settings">Settings Page</a>
+</body>

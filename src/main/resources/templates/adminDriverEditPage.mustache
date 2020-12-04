@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin/drivers"><button>Turn back</button></a>
+
+<b>Driver Editor</b>
+
+<div>Current driver </div>
+<div>
+    <a>DriverId {{id}}</a>
+    <br/>
+    <a>DriverName {{name}}</a>
+    <br/>
+    <a>DriverCategory {{category}}</a>
+    <br/>
+    <a>DriverSalary {{salary}}</a>
+    <br/>
+    <a>DriverStatus {{status}}</a>
+    <br/>
+    <a>DriverMileage {{mileage}}</a>
+</div>
+
+<a href="/admin/drivers/{{id}}/deleteDriver"><button>Delete driver</button></a>
+
+<div>Change driver status</div>
+<form method="post">
+    <label>
+        <select name="select" size="2" multiple>
+            <option selected value="s1">isFree</option>
+            <option value="s2">isAtWork</option>
+        </select>
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Change Driver Status</button>
+</form>
+
+<div>Change Drivers Salary</div>
+<form method="post" action="{{id}}/salary">
+    <input type="number" name="salary" placeholder="DriverSalary" >
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Change Driver Salary</button>
+</form>
+
+{{#response}}
+    {{response}}
+{{/response}}
+
+</body>

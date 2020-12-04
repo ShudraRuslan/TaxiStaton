@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin"><button>Turn back</button></a>
+
+<div>List of drivers</div>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Salary</th>
+        <th>Status</th>
+        <th>Mileage</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#drivers}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{category}}</td>
+            <td>{{salary}}</td>
+            <td>{{status}}</td>
+            <td>{{mileage}}</td>
+            <td><a href="drivers/{{driverId}}">Edit driver</a></td>
+        </tr>
+    {{/drivers}}
+    </tbody>
+</table>
+
+<div>Add a new driver</div>
+<form method="post">
+    <input type="text" name="name" placeholder="Name">
+    <input type="number" name="salary" placeholder="Salary">
+    <input type="number" name="mileage" placeholder="Mileage">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Add new Driver</button>
+    <button type="reset">Reset</button>
+    </form>
+
+{{#response}}
+    {{response}}
+{{/response}}
+
+</body>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<head>
+    <title>OrderResponseView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<br>
+
+<body>
+<a href="/client">
+    <button>Turn back</button>
+</a>
+
+<div> User info</div>
+<br/>
+<div>
+    <a>Username {{username}}</a>
+    <br/>
+    <a>Cash {{cash}}</a>
+    <br/>
+    <a>IsVip {{vip}}</a>
+
+</div>
+
+<form method="post">
+    <label>
+        <input type="number" name="amountOfPassengers" placeholder="Amount of passengers">
+    </label>
+    <label>
+        <input type="number" name="distance" placeholder="Distance">
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Create order</button>
+    <button type="reset">Reset</button>
+</form>
+
+<br/>
+{{#response}}
+    {{response}}
+{{/response}}
+
+<br/>
+{{#payload}}
+    <div>Payload is {{payload}}</div>
+{{/payload}}
+</body>

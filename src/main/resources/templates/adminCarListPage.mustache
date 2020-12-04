@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin"><button>Turn back</button></a>
+
+<div>List of cars</div>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Mileage</th>
+        <th>FuelConsumption</th>
+        <th>EnginePower</th>
+        <th>Capacity</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#cars}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{mileage}}</td>
+            <td>{{fuelConsumption}}</td>
+            <td>{{enginePower}}</td>
+            <td>{{capacity}}</td>
+            <td>{{status}}</td>
+            <td><a href="cars/{{carId}}">Edit car</a></td>
+        </tr>
+    {{/cars}}
+    </tbody>
+</table>
+
+<div>Add a new car</div>
+<form method="post">
+    <label>
+        <input type="text" name="name" placeholder="Name">
+    </label>
+    <label>
+        <input type="number" name="mileage" placeholder="Mileage">
+    </label>
+    <label>
+        <input type="number" name="fuelConsumption" placeholder="Fuel Consumption">
+    </label>
+    <label>
+        <input type="number" name="enginePower" placeholder="Engine Power">
+    </label>
+    <label>
+        <input type="number" name="capacity" placeholder="Capacity">
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Add new car</button>
+    <button type="reset">Reset</button>
+</form>
+
+{{#response}}
+    {{response}}
+{{/response}}
+</body>

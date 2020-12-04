@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin/user"><button>Turn back</button></a>
+
+<span>User Editor</span>
+
+<div>
+    <a>UserName {{username}}</a>
+    <br/>
+    <a>User id{{id}}</a>
+    <br/>
+    <a>User Role</a>
+    {{#roles}}
+        {{roles}}
+    {{/roles}}
+    <br/>
+    <a>User cash {{cash}}</a>
+    <br/>
+    <a>User vip {{vip}}</a>
+</div>
+
+<div>Change Client Vip</div>
+<form method="post" action="{{id}}/vip">
+    <label>
+        <select name="select" size="2" multiple>
+            <option selected value="s1">isVip</option>
+            <option value="s2">isNotVip</option>
+        </select>
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Change Client Vip</button>
+</form>
+
+<form method="post" action="{{id}}/makeAdmin">
+    <label>
+        <select name="select" size="2" multiple>
+            <option selected value="s1">makeAnAdmin</option>
+            <option value="s2">makeClient</option>
+        </select>
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Change Admin Status</button>
+</form>
+</body>
