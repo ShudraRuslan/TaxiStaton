@@ -1,5 +1,6 @@
 package com.example.demo.Services.MainClasses.repos;
 
+import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,6 +14,8 @@ public interface OrderRepo extends CrudRepository<Orders, Long> {
     List<Orders> getAllOrdersByCarId(Long carId);
 
     List<Orders> getAllOrdersByDriverId(Long driverId);
+
+    List<Orders> getAllOrdersByStatus(OrderStatus status);
 
 
 }

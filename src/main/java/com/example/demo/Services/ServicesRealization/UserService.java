@@ -82,6 +82,11 @@ public class UserService implements UserDetailsService {
         return (List<User>) repos.findAll();
     }
 
+    public void deleteUserById(Long id){
+        User user = repos.getClientById(id);
+        repos.delete(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,6 +1,7 @@
 package com.example.demo.Services.ServicesRealization;
 
 
+import com.example.demo.Services.MainClasses.DriverInfo.Driver;
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
 import com.example.demo.Services.MainClasses.Roles.User;
@@ -59,6 +60,27 @@ public final class OrderFulfillmentService {
 
     public List<Orders> orderReport() {
         return (List<Orders>) repos.findAll();
+    }
+
+    public  List<Orders> getOrdersByStatus(OrderStatus status){
+        return repos.getAllOrdersByStatus(status);
+    }
+
+    private void deleteOperation(List<Orders> list) {
+        if (list.size() == 0) return;
+        int iterator = 0;
+        int iterationSize = list.size();
+
+        for (iterator = 0; iterator < iterationSize; iterator++) {
+
+            repos.delete(list.get(iterator));
+        }
+    }
+
+    public void deleteOrdersByStatus(OrderStatus status){
+        List<Orders> orders = repos.getAllOrdersByStatus(status);
+        deleteOperation(orders);
+
     }
 
 

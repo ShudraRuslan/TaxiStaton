@@ -1,6 +1,7 @@
 package com.example.demo.Api.ClientControllers;
 
 import com.example.demo.Services.MainClasses.CarInfo.CarStatus;
+import com.example.demo.Services.MainClasses.CashierInfo.Cashier;
 import com.example.demo.Services.MainClasses.DriverInfo.DriverStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
@@ -71,6 +72,7 @@ public class ClientOrderController {
         Orders order = orderService.createOrder(amountOfPassengers, distance, user);
         boolean isVip = clientService.getClientById(order.getClient().getId()).isVip();
         Long carId = carService.findAppropriateCar(amountOfPassengers, distance);
+        cashService.createCashier(order.getOrderId());
 
 
         double payload = cashService.getCurrentBookingCash(distance, amountOfPassengers, isVip);
@@ -80,6 +82,8 @@ public class ClientOrderController {
             orderService.serCarId(order.getOrderId(), carId);
         else {
             orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCancelled);
+            orderService.serCarId(order.getOrderId(),0L);
+            orderService.serDriverId(order.getOrderId(),0L);
             model.put("response", "Orders can not be completed now! There is no appropriate car on the station!");
             model.put("username", user.getUsername());
             model.put("cash", user.getCash());
@@ -92,6 +96,8 @@ public class ClientOrderController {
             orderService.serDriverId(order.getOrderId(), driverId);
         else {
             orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCancelled);
+            orderService.serCarId(order.getOrderId(),0L);
+            orderService.serDriverId(order.getOrderId(),0L);
             model.put("response", "Orders can not be completed now!There are no free drivers on the station");
             model.put("username", user.getUsername());
             model.put("cash", user.getCash());
@@ -145,7 +151,7 @@ public class ClientOrderController {
         carService.changeCarStatus(carId, CarStatus.isAtWork);
         persService.updateDriverInformation(driverId, distance);
         carService.updateCarInformation(carId, distance);
-        cashService.updateCashier(distance, carFuelConsumption,
+        cashService.updateCashier(order.getOrderId(),distance, carFuelConsumption,
                 amountOfPassengers, driverSalary, carNeedsService, isVip);
 
 

@@ -6,7 +6,35 @@
 
 <body>
 
-<a href="/admin"><button>Turn back</button></a>
+<a href="/admin">
+    <button>Turn back</button>
+</a>
+
+<a href="/admin/cashier">
+    <button>Go to cashier panel</button>
+</a>
+<a href="/admin/cars">
+    <button>Go to car panel</button>
+</a>
+<a href="/admin/orderss">
+    <button>Go to order panel</button>
+</a>
+<a href="/admin/user">
+    <button>Go to user panel</button>
+</a>
+<a href="/client">
+    <button>Go to client panel</button>
+</a>
+
+<div>Add a new driver</div>
+<form method="post">
+    <input type="text" name="name" placeholder="Name">
+    <input type="number" name="salary" placeholder="Salary">
+    <input type="number" name="mileage" placeholder="Mileage">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Add new Driver</button>
+    <button type="reset">Reset</button>
+</form>
 
 <div>List of drivers</div>
 <table>
@@ -34,15 +62,7 @@
     </tbody>
 </table>
 
-<div>Add a new driver</div>
-<form method="post">
-    <input type="text" name="name" placeholder="Name">
-    <input type="number" name="salary" placeholder="Salary">
-    <input type="number" name="mileage" placeholder="Mileage">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Add new Driver</button>
-    <button type="reset">Reset</button>
-    </form>
+
 
 {{#response}}
     {{response}}

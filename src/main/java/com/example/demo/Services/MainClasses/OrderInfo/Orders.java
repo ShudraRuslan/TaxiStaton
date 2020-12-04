@@ -13,14 +13,14 @@ public final class Orders {
     private Long orderId;
     private int amountOfPassengers;
     private double distance;
+    private Long driverId;
+    private Long carId;
+    private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User client;
 
-    private Long driverId;
-    private Long carId;
-    private OrderStatus status;
 
     public Orders() {
     }
@@ -32,7 +32,6 @@ public final class Orders {
         this.status = OrderStatus.isPreparing;
 
     }
-
 
 
     public void setAmountOfPassengers(int amountOfPassengers) {

@@ -5,6 +5,10 @@ import com.example.demo.Services.MainClasses.repos.CashierRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class CashierService {
@@ -13,20 +17,18 @@ public class CashierService {
 
 
     @Autowired
-    public CashierService(CashierRepo repos) {
+    public CashierService(CashierRepo repos) throws SQLException {
         this.repos = repos;
-        createCashier();
     }
 
-    public void createCashier() {
-        if (repos.getByNameOfTheStation("FirstStation") == null) {
-            Cashier cashier = new Cashier("FirstStation");
-            repos.save(cashier);
-        }
+    public void createCashier(Long orderId) {
+        Cashier cashier = new Cashier(orderId);
+        repos.save(cashier);
     }
 
-    public void changeFuelLoses(double distance, double consumption) {
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
+
+    public void changeFuelLoses(Long orderId, double distance, double consumption) {
+        Cashier cashier = repos.getByOrderId(orderId);
         double additionFuelLoses = distance * consumption;
         double newFuelLoses = cashier.getFuelCash() + additionFuelLoses;
         cashier.setFuelCash(newFuelLoses);
@@ -42,76 +44,84 @@ public class CashierService {
             return 15 * distance + 10 * amountOfPassengers;
     }
 
-    public void changeBookingCash(double distance, int amountOfPassengers, boolean isVipClient) {
+    public void changeBookingCash(Long orderId, double distance, int amountOfPassengers, boolean isVipClient) {
 
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
+        Cashier cashier = repos.getByOrderId(orderId);
         double additionOrderPrice = getCurrentBookingCash(distance, amountOfPassengers, isVipClient);
         double newBookingCash = cashier.getBookingCash() + additionOrderPrice;
         cashier.setBookingCash(newBookingCash);
         repos.save(cashier);
     }
 
-    public void changeCarServiceCash() {
+    public void changeCarServiceCash(Long orderId) {
 
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
+        Cashier cashier = repos.getByOrderId(orderId);
         double newServiceCash = cashier.getCarServiceCash() + 4000;
         cashier.setCarServiceCash(newServiceCash);
         repos.save(cashier);
     }
 
-    public void changeDriverSalaryCash(double salary) {
+    public void changeDriverSalaryCash(Long orderId, double salary) {
 
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
+        Cashier cashier = repos.getByOrderId(orderId);
         double newDriverSalaryCash = cashier.getDriverSalaryCash() + salary;
         cashier.setDriverSalaryCash(newDriverSalaryCash);
         repos.save(cashier);
     }
 
-    public void countCashierBalance() {
+    public void countCashierBalance(Long orderId) {
 
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
-        double additionBalance = cashier.getBookingCash() - cashier.getCarServiceCash() -
+        Cashier cashier = repos.getByOrderId(orderId);
+        double balance = cashier.getBookingCash() - cashier.getCarServiceCash() -
                 cashier.getDriverSalaryCash() - cashier.getFuelCash();
 
-        double balance = cashier.getBalance() + additionBalance;
         cashier.setBalance(balance);
         repos.save(cashier);
     }
 
-    public void updateCashier(double distance, double consumption, int amountOfPassengers,
+    public void updateCashier(Long orderId, double distance, double consumption, int amountOfPassengers,
                               double salary, boolean needsService, boolean isVip) {
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
 
-        changeFuelLoses(distance, consumption);
-        changeDriverSalaryCash(salary);
-        changeBookingCash(distance, amountOfPassengers, isVip);
+        changeFuelLoses(orderId, distance, consumption);
+        changeDriverSalaryCash(orderId, salary);
+        changeBookingCash(orderId, distance, amountOfPassengers, isVip);
         if (needsService)
 
-            changeCarServiceCash();
+            changeCarServiceCash(orderId);
 
-        countCashierBalance();
+        countCashierBalance(orderId);
     }
 
-    public Cashier cashierReport() {
+    public Cashier cashierReport(Long orderId) {
 
-        return repos.getByNameOfTheStation("FirstStation");
+        return repos.getByOrderId(orderId);
     }
 
-    public boolean changeCashier(double bookingCash,
-                                 double driverSalaryCash,
-                                 double carServiceCash,
-                                 double fuelCash) {
-        Cashier cashier = repos.getByNameOfTheStation("FirstStation");
-        try {
-            cashier.setBookingCash(cashier.getBookingCash() + bookingCash);
-            cashier.setCarServiceCash(cashier.getCarServiceCash() + carServiceCash);
-            cashier.setDriverSalaryCash(cashier.getDriverSalaryCash() + driverSalaryCash);
-            cashier.setFuelCash(cashier.getFuelCash() + fuelCash);
-            repos.save(cashier);
-            return true;
-        } catch (Exception e) {
-            return false;
+    public Map<String, Double> fullCashierReport() {
+        return repos.getFullReport();
+    }
+
+    private void deleteOperation(List<Cashier> list) {
+        if (list.size() == 0) return;
+        int iterator = 0;
+        int iterationSize = list.size();
+
+        for (iterator = 0; iterator < iterationSize; iterator++) {
+
+            repos.delete(list.get(iterator));
         }
     }
 
-}
+        public void cleanCashier(){
+            List<Cashier> cashiers = (List<Cashier>) repos.findAll();
+            deleteOperation(cashiers);
+        }
+
+
+    }
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+
+<body>
+
+<a href="/admin"><button>Turn back</button></a>
+<a href="/admin/cashier"><button>Go to cashier panel</button></a>
+<a href="/admin/cars"><button>Go to car panel</button></a>
+<a href="/admin/drivers"><button>Go to driver panel</button></a>
+<a href="/admin/user"><button>Go to user panel</button></a>
+<a href="/client"><button>Go to client panel</button></a>
+
+<form method="post">
+    <label>
+        <select name="select" size="3" multiple>
+            <option selected value="s1">Full Report</option>
+            <option value="s2">Completed Orders</option>
+            <option value="s3">Cancelled Orders</option>
+        </select>
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">See Order List</button>
+</form>
+
+<a href="/admin/orders/deleteCancelled"><button>Delete Cancelled Orders</button></a>
+<a href="/admin/orders/deleteAll"><button>Delete All Orders</button></a>
+
+<div>List of all orders</div>
+<table>
+    <thead>
+    <tr>
+        <th>OrderId</th>
+        <th>CarId</th>
+        <th>DriverId</th>
+        <th>Amount of Passengers</th>
+        <th>Distance</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#orders}}
+        <tr>
+            <td>{{orderId}}</td>
+            <td>{{carId}}</td>
+            <td>{{driverId}}</td>
+            <td>{{amountOfPassengers}}</td>
+            <td>{{distance}}</td>
+            <td>{{status}}</td>
+        </tr>
+    {{/orders}}
+    </tbody>
+</table>
+
+</body>

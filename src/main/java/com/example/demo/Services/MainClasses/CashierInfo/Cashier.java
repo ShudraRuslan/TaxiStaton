@@ -3,6 +3,8 @@ package com.example.demo.Services.MainClasses.CashierInfo;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
@@ -10,8 +12,9 @@ import java.util.UUID;
 public class Cashier {
 
     @Id
-    private String nameOfTheStation;
-    private boolean isOpen;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private Long orderId;
     private double bookingCash;
     private double carServiceCash;
     private double driverSalaryCash;
@@ -19,31 +22,27 @@ public class Cashier {
     private double balance;
 
 
-    public Cashier() {
-        isOpen = true;
+    public Cashier(){
     }
 
-    public Cashier(String name) {
-        this.nameOfTheStation = name;
-        isOpen = true;
+    public Cashier(Long orderId){
+        this.orderId=orderId;
     }
 
-
-    public String getName() {
-        return nameOfTheStation;
+    public Long getId() {
+        return id;
     }
 
-
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOpen() {
-        isOpen = true;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public double getBookingCash() {
@@ -88,10 +87,15 @@ public class Cashier {
 
     @Override
     public String toString() {
-        return "bookingCash = " + bookingCash + "\n" + "carServiceCash= "
-                + carServiceCash + "\n" + "driverSalaryCash= " + driverSalaryCash + "\n" +
-                "fuelCash= " + fuelCash + "\n" +
-                "balance= " + balance;
+        return "Cashier{" +
+                "id=" + id +
+                ", orderId=" + orderId +
+                ", bookingCash=" + bookingCash +
+                ", carServiceCash=" + carServiceCash +
+                ", driverSalaryCash=" + driverSalaryCash +
+                ", fuelCash=" + fuelCash +
+                ", balance=" + balance +
+                '}';
     }
 }
 

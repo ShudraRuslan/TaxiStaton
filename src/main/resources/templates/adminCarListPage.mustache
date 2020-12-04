@@ -7,6 +7,34 @@
 <body>
 
 <a href="/admin"><button>Turn back</button></a>
+<a href="/admin/cashier"><button>Go to cashier panel</button></a>
+<a href="/admin/orders"><button>Go to order panel</button></a>
+<a href="/admin/drivers"><button>Go to driver panel</button></a>
+<a href="/admin/user"><button>Go to user panel</button></a>
+<a href="/client"><button>Go to client panel</button></a>
+
+
+<div>Add a new car</div>
+<form method="post">
+    <label>
+        <input type="text" name="name" placeholder="Name">
+    </label>
+    <label>
+        <input type="number" name="mileage" placeholder="Mileage">
+    </label>
+    <label>
+        <input type="number" name="fuelConsumption" placeholder="Fuel Consumption">
+    </label>
+    <label>
+        <input type="number" name="enginePower" placeholder="Engine Power">
+    </label>
+    <label>
+        <input type="number" name="capacity" placeholder="Capacity">
+    </label>
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+    <button type="submit">Add new car</button>
+    <button type="reset">Reset</button>
+</form>
 
 <div>List of cars</div>
 <table>
@@ -36,27 +64,6 @@
     </tbody>
 </table>
 
-<div>Add a new car</div>
-<form method="post">
-    <label>
-        <input type="text" name="name" placeholder="Name">
-    </label>
-    <label>
-        <input type="number" name="mileage" placeholder="Mileage">
-    </label>
-    <label>
-        <input type="number" name="fuelConsumption" placeholder="Fuel Consumption">
-    </label>
-    <label>
-        <input type="number" name="enginePower" placeholder="Engine Power">
-    </label>
-    <label>
-        <input type="number" name="capacity" placeholder="Capacity">
-    </label>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Add new car</button>
-    <button type="reset">Reset</button>
-</form>
 
 {{#response}}
     {{response}}
