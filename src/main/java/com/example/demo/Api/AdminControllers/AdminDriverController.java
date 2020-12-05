@@ -49,9 +49,8 @@ public class AdminDriverController {
     @PostMapping
     public String addDriver(Map<String, Object> model,
                             @RequestParam(defaultValue = "") String name,
-                            @RequestParam(defaultValue = "-1") double mileage,
-                            @RequestParam(defaultValue = "0") double salary) {
-        boolean result = service.addNewDriverToPersonnel(name, salary, mileage);
+                            @RequestParam(defaultValue = "-1") double mileage) {
+        boolean result = service.addNewDriverToPersonnel(name,  mileage);
         if (result)
             model.put("response", "Completed!");
         else model.put("response", "Something bad happened! Try again!");
@@ -85,6 +84,8 @@ public class AdminDriverController {
         model.put("salary", driver.getSalary());
         model.put("status", driver.getStatus());
         model.put("mileage", driver.getMileage());
+        model.put("todayOrders",service.getTodayCompletedOrders(driver.getDriverId()));
+        model.put("totalOrders",service.getTotalCompletedOrders(driver.getDriverId()));
         return "adminDriverEditPage";
     }
 }

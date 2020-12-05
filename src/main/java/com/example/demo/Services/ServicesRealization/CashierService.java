@@ -1,6 +1,7 @@
 package com.example.demo.Services.ServicesRealization;
 
 import com.example.demo.Services.MainClasses.CashierInfo.Cashier;
+import com.example.demo.Services.MainClasses.DriverInfo.Category;
 import com.example.demo.Services.MainClasses.repos.CashierRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,9 @@ public class CashierService {
     @Autowired
     public CashierService(CashierRepo repos) throws SQLException {
         this.repos = repos;
+
     }
+
 
     public void createCashier(Long orderId) {
         Cashier cashier = new Cashier(orderId);
@@ -29,9 +32,9 @@ public class CashierService {
 
     public void changeFuelLoses(Long orderId, double distance, double consumption) {
         Cashier cashier = repos.getByOrderId(orderId);
-        double additionFuelLoses = distance * consumption;
-        double newFuelLoses = cashier.getFuelCash() + additionFuelLoses;
-        cashier.setFuelCash(newFuelLoses);
+        double fuelPrice = 0.2;
+        double fuelLoses = distance * consumption * fuelPrice;
+        cashier.setFuelCash(fuelLoses);
         repos.save(cashier);
     }
 
@@ -44,32 +47,31 @@ public class CashierService {
             return 15 * distance + 10 * amountOfPassengers;
     }
 
-    public void changeBookingCash(Long orderId, double distance, int amountOfPassengers, boolean isVipClient) {
+    private void changeBookingCash(Long orderId, double distance, int amountOfPassengers, boolean isVipClient) {
 
         Cashier cashier = repos.getByOrderId(orderId);
-        double additionOrderPrice = getCurrentBookingCash(distance, amountOfPassengers, isVipClient);
-        double newBookingCash = cashier.getBookingCash() + additionOrderPrice;
-        cashier.setBookingCash(newBookingCash);
+        double orderPrice = getCurrentBookingCash(distance, amountOfPassengers, isVipClient);
+        cashier.setBookingCash(orderPrice);
         repos.save(cashier);
     }
 
-    public void changeCarServiceCash(Long orderId) {
+    private void changeCarServiceCash(Long orderId) {
 
         Cashier cashier = repos.getByOrderId(orderId);
-        double newServiceCash = cashier.getCarServiceCash() + 4000;
-        cashier.setCarServiceCash(newServiceCash);
+        double carServicePrice = 3000;
+        cashier.setCarServiceCash(carServicePrice);
         repos.save(cashier);
     }
 
-    public void changeDriverSalaryCash(Long orderId, double salary) {
+    private void changeDriverSalaryCash(Long orderId, double distance, int amountOfPassengers, Category category) {
 
         Cashier cashier = repos.getByOrderId(orderId);
-        double newDriverSalaryCash = cashier.getDriverSalaryCash() + salary;
-        cashier.setDriverSalaryCash(newDriverSalaryCash);
+        double orderSalary = (amountOfPassengers * 5 + distance) * category.ordinal();
+        cashier.setDriverSalaryCash(orderSalary);
         repos.save(cashier);
     }
 
-    public void countCashierBalance(Long orderId) {
+    private void countCashierBalance(Long orderId) {
 
         Cashier cashier = repos.getByOrderId(orderId);
         double balance = cashier.getBookingCash() - cashier.getCarServiceCash() -
@@ -80,16 +82,20 @@ public class CashierService {
     }
 
     public void updateCashier(Long orderId, double distance, double consumption, int amountOfPassengers,
-                              double salary, boolean needsService, boolean isVip) {
+                              Category driverCategory, boolean needsService, boolean isVip) {
 
         changeFuelLoses(orderId, distance, consumption);
-        changeDriverSalaryCash(orderId, salary);
+        changeDriverSalaryCash(orderId, distance, amountOfPassengers, driverCategory);
         changeBookingCash(orderId, distance, amountOfPassengers, isVip);
         if (needsService)
 
             changeCarServiceCash(orderId);
 
         countCashierBalance(orderId);
+    }
+
+    public double getDriverSalary(Long id) {
+        return repos.gerFullDriverSalary(id);
     }
 
     public Cashier cashierReport(Long orderId) {
@@ -99,6 +105,10 @@ public class CashierService {
 
     public Map<String, Double> fullCashierReport() {
         return repos.getFullReport();
+    }
+
+    public Map<String, Double> dailyCashierReport() {
+        return repos.getDailyReport();
     }
 
     private void deleteOperation(List<Cashier> list) {
@@ -112,13 +122,24 @@ public class CashierService {
         }
     }
 
-        public void cleanCashier(){
-            List<Cashier> cashiers = (List<Cashier>) repos.findAll();
-            deleteOperation(cashiers);
+    public void cleanCashierFromCancelledOrders() {
+        try {
+            List<Long> idList = repos.getIdsForCashOfCancelledOrders();
+            for (Long aLong : idList) {
+                Cashier cashier = repos.getById(aLong);
+                repos.delete(cashier);
+            }
+        } catch (Exception ignored) {
         }
-
-
     }
+
+    public void cleanCashier() {
+        List<Cashier> cashiers = (List<Cashier>) repos.findAll();
+        deleteOperation(cashiers);
+    }
+
+
+}
 
 
 

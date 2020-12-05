@@ -40,25 +40,21 @@ public class PersonnelService {
         if (driver.getMileage() < 1000) {
 
             driver.setCategory(Category.A);
-            driver.setSalary((1000));
             repos.save(driver);
 
         } else if (driver.getMileage() < 2000) {
 
             driver.setCategory(Category.B);
-            driver.setSalary(driver.getSalary() + 1000);
             repos.save(driver);
 
         } else if (driver.getMileage() < 3000) {
 
             driver.setCategory(Category.C);
-            driver.setSalary(driver.getSalary() + 1000);
             repos.save(driver);
 
         } else if (driver.getMileage() < 4000) {
 
             driver.setCategory(Category.D);
-            driver.setSalary(driver.getSalary() + 1000);
             repos.save(driver);
 
         }
@@ -91,12 +87,12 @@ public class PersonnelService {
 
     }
 
-    public boolean addNewDriverToPersonnel(String name, double salary, double mileage) {
-        if (name.equals("") || salary <= 0 || mileage < 0)
+    public boolean addNewDriverToPersonnel(String name, double mileage) {
+        if (name.equals("") || mileage < 0)
             return false;
         try {
             Category category = getDriverCategory(mileage);
-            Driver driver = new Driver(name, category, salary, mileage);
+            Driver driver = new Driver(name, category, mileage);
             repos.save(driver);
             return true;
         } catch (Exception e) {
@@ -123,8 +119,8 @@ public class PersonnelService {
         return repos.getAllDriversByStatus(status);
     }
 
-    private boolean deleteOperation(List<Driver> list) {
-        if (list.size() == 0) return false;
+    private void deleteOperation(List<Driver> list) {
+        if (list.size() == 0) return;
         int iterator = 0;
         int iterationSize = list.size();
 
@@ -132,20 +128,9 @@ public class PersonnelService {
 
             repos.delete(list.get(iterator));
         }
-        return true;
     }
 
 
-    public boolean deleteAllDriverByStatus(DriverStatus status) {
-
-        List<Driver> list = repos.getAllDriversByStatus(status);
-        return deleteOperation(list);
-    }
-
-    public boolean deleteAllDrivers() {
-        List<Driver> list = (List<Driver>) repos.findAll();
-        return deleteOperation(list);
-    }
 
     public void deleteDriverById(Long id) {
 
@@ -164,10 +149,18 @@ public class PersonnelService {
         return repos.getByDriverId(driverId);
     }
 
-    public void changeDriverSalary(Long id, double salary) {
+    public void changeDriverSalary(Long id, double additionSalary) {
         Driver driver = repos.getByDriverId(id);
-        driver.setSalary(salary);
+        driver.setSalary(driver.getSalary()+additionSalary);
         repos.save(driver);
+    }
+
+    public int getTotalCompletedOrders(Long id){
+        return repos.getTotalCountOfOrders(id);
+    }
+
+    public int getTodayCompletedOrders(Long id){
+        return repos.getTodayCountOfOrders(id);
     }
 }
 

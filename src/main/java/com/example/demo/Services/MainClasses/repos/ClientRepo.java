@@ -7,10 +7,6 @@ public interface ClientRepo extends CrudRepository<User, Long> {
 
     boolean existsByUsername(String nickname);
 
-    boolean existsClientByUsernameAndPassword(String nickName, String password);
-
-    User getClientByUsernameAndPassword(String nickname, String password);
-
     User getClientById(Long id);
 
     User getClientByUsername(String nickname);

@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @EnableAutoConfiguration
@@ -15,7 +14,7 @@ public class Driver {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long driverId;
     private String name;
-    private Category category;//is used to determine drivers salary
+    private Category category;
     private double salary;
     private DriverStatus status;
     private double mileage;
@@ -24,11 +23,11 @@ public class Driver {
 
     }
 
-    public Driver(String name, Category category, double salary, double mileage) {
+    public Driver(String name, Category category, double mileage) {
         this.name = name;
         this.category = category;
         this.mileage = mileage;
-        this.salary = salary;
+        this.salary = 0;
         this.status = DriverStatus.free;
     }
 

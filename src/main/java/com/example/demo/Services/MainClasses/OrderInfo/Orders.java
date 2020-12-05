@@ -3,7 +3,12 @@ package com.example.demo.Services.MainClasses.OrderInfo;
 import com.example.demo.Services.MainClasses.Roles.User;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.sql.Date;
+
 
 @Entity
 @EnableAutoConfiguration
@@ -16,10 +21,8 @@ public final class Orders {
     private Long driverId;
     private Long carId;
     private OrderStatus status;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User client;
+    private Long clientId;
+    private Date date;
 
 
     public Orders() {
@@ -28,11 +31,19 @@ public final class Orders {
     public Orders(int amountOfPassengers, double distance, User client) {
         this.amountOfPassengers = amountOfPassengers;
         this.distance = distance;
-        this.client=client;
+        this.clientId = client.getId();
         this.status = OrderStatus.isPreparing;
-
+        long mills = System.currentTimeMillis();
+        date = new Date(mills);
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public void setAmountOfPassengers(int amountOfPassengers) {
         this.amountOfPassengers = amountOfPassengers;
@@ -58,12 +69,12 @@ public final class Orders {
         this.orderId = orderId;
     }
 
-    public User getClient() {
-        return client;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient(User client) {
-        this.client = client;
+    public void setClientId(Long client) {
+        this.clientId = client;
     }
 
     public Long getDriverId() {
@@ -96,7 +107,7 @@ public final class Orders {
                 "orderId=" + orderId +
                 ", amountOfPassengers=" + amountOfPassengers +
                 ", distance=" + distance +
-                ", username=" + client.getUsername() +
+                ", username=" + clientId +
                 ", driverId=" + driverId +
                 ", carId=" + carId +
                 ", status=" + status +

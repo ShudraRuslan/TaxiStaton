@@ -6,7 +6,9 @@
 
 <body>
 
-<a href="/admin/user"><button>Turn back</button></a>
+<a href="/admin/user">
+    <button>Turn back</button>
+</a>
 
 <span>User Editor</span>
 
@@ -26,7 +28,7 @@
 </div>
 
 <div>Change Client Vip</div>
-<form method="post" action="{{id}}/vip">
+<form method="post" action="/admin/user/{{id}}/vip">
     <label>
         <select name="select" size="2" multiple>
             <option selected value="s1">isVip</option>
@@ -37,7 +39,7 @@
     <button type="submit">Change Client Vip</button>
 </form>
 
-<form method="post" action="{{id}}/makeAdmin">
+<form method="post" action="/admin/user/{{id}}/makeAdmin">
     <label>
         <select name="select" size="2" multiple>
             <option selected value="s1">makeAnAdmin</option>
@@ -48,5 +50,7 @@
     <button type="submit">Change Admin Status</button>
 </form>
 
-<a href="admin/user/{{id}}/delete"><button>Delete user</button></a>
+<a href="/admin/user/{{id}}/delete">
+    <button>Delete user</button>
+</a>
 </body>

@@ -57,7 +57,7 @@ public class AdminUserController {
 
     }
 
-    @PostMapping("{user}/delete")
+    @GetMapping("{user}/delete")
     public String deleteUser(@PathVariable User user) {
         service.deleteUserById(user.getId());
 

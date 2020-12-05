@@ -6,11 +6,13 @@
 
 <body>
 
-<a href="/admin/drivers"><button>Turn back</button></a>
+<a href="/admin/drivers">
+    <button>Turn back</button>
+</a>
 
 <b>Driver Editor</b>
 
-<div>Current driver </div>
+<div>Current driver</div>
 <div>
     <a>DriverId {{id}}</a>
     <br/>
@@ -23,9 +25,15 @@
     <a>DriverStatus {{status}}</a>
     <br/>
     <a>DriverMileage {{mileage}}</a>
+    <br/>
+    <a>Completed Orders Today {{todayOrders}}</a>
+    <br/>
+    <a>Total Completed Orders {{totalOrders}}</a>
 </div>
 
-<a href="/admin/drivers/{{id}}/deleteDriver"><button>Delete driver</button></a>
+<a href="/admin/drivers/{{id}}/deleteDriver">
+    <button>Delete driver</button>
+</a>
 
 <div>Change driver status</div>
 <form method="post">
@@ -40,10 +48,10 @@
 </form>
 
 <div>Change Drivers Salary</div>
-<form method="post" action="{{id}}/salary">
-    <input type="number" name="salary" placeholder="DriverSalary" >
+<form method="post" action="/admin/drivers/{{id}}/salary">
+    <input type="number" name="salary" placeholder="AdditionalDriverSalary">
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Change Driver Salary</button>
+    <button type="submit">Add To Driver Salary</button>
 </form>
 
 {{#response}}

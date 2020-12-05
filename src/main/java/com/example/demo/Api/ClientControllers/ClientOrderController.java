@@ -1,7 +1,7 @@
 package com.example.demo.Api.ClientControllers;
 
 import com.example.demo.Services.MainClasses.CarInfo.CarStatus;
-import com.example.demo.Services.MainClasses.CashierInfo.Cashier;
+import com.example.demo.Services.MainClasses.DriverInfo.Category;
 import com.example.demo.Services.MainClasses.DriverInfo.DriverStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
@@ -70,9 +70,9 @@ public class ClientOrderController {
         }
 
         Orders order = orderService.createOrder(amountOfPassengers, distance, user);
-        boolean isVip = clientService.getClientById(order.getClient().getId()).isVip();
+        boolean isVip = clientService.getClientById(order.getClientId()).isVip();
         Long carId = carService.findAppropriateCar(amountOfPassengers, distance);
-        cashService.createCashier(order.getOrderId());
+
 
 
         double payload = cashService.getCurrentBookingCash(distance, amountOfPassengers, isVip);
@@ -82,8 +82,8 @@ public class ClientOrderController {
             orderService.serCarId(order.getOrderId(), carId);
         else {
             orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCancelled);
-            orderService.serCarId(order.getOrderId(),0L);
-            orderService.serDriverId(order.getOrderId(),0L);
+            orderService.serCarId(order.getOrderId(), 0L);
+            orderService.serDriverId(order.getOrderId(), 0L);
             model.put("response", "Orders can not be completed now! There is no appropriate car on the station!");
             model.put("username", user.getUsername());
             model.put("cash", user.getCash());
@@ -96,8 +96,8 @@ public class ClientOrderController {
             orderService.serDriverId(order.getOrderId(), driverId);
         else {
             orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCancelled);
-            orderService.serCarId(order.getOrderId(),0L);
-            orderService.serDriverId(order.getOrderId(),0L);
+            orderService.serCarId(order.getOrderId(), 0L);
+            orderService.serDriverId(order.getOrderId(), 0L);
             model.put("response", "Orders can not be completed now!There are no free drivers on the station");
             model.put("username", user.getUsername());
             model.put("cash", user.getCash());
@@ -107,11 +107,10 @@ public class ClientOrderController {
 
         checkClientsPayAbility(order, payload);
         if (orderService.getOrderStatus(order.getOrderId()) == OrderStatus.isCancelled) {
-            model.put("message", "You don`t have enough money!");
+            model.put("response", "You don`t have enough money!");
         } else {
             updateInformation(order.getOrderId());
             clientService.changeClientCash(user.getId(), payload);
-            user.setCash(user.getCash() - payload);
             model.put("response", "Your order was completed successfully" + "\n" + order);
         }
         model.put("payload", payload);
@@ -125,7 +124,7 @@ public class ClientOrderController {
 
     private void checkClientsPayAbility(Orders order, double payload) {
 
-        if (!clientService.haveEnoughMoney(order.getClient().getId(), payload)) {
+        if (!clientService.haveEnoughMoney(order.getClientId(), payload)) {
 
             System.out.println("CLIENT DOES NOT HAVE ENOUGH MONEY!");
             orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCancelled);
@@ -135,15 +134,16 @@ public class ClientOrderController {
 
     private void updateInformation(Long id) {
         Orders order = orderService.getOrderById(id);
+        cashService.createCashier(order.getOrderId());
 
         Long driverId = order.getDriverId();
+        Category category = persService.getDriverById(driverId).getCategory();
         Long carId = order.getCarId();
 
         double distance = order.getDistance();
         int amountOfPassengers = order.getAmountOfPassengers();
-        boolean isVip = clientService.getClientById(order.getClient().getId()).isVip();
+        boolean isVip = clientService.getClientById(order.getClientId()).isVip();
         double carFuelConsumption = carService.getCarById(carId).getFuelConsumption();
-        double driverSalary = persService.getDriverById(driverId).getSalary();
         boolean carNeedsService = carService.needsService(carId);
 
         orderService.setOrderStatus(order.getOrderId(), OrderStatus.isCompleted);
@@ -151,9 +151,10 @@ public class ClientOrderController {
         carService.changeCarStatus(carId, CarStatus.isAtWork);
         persService.updateDriverInformation(driverId, distance);
         carService.updateCarInformation(carId, distance);
-        cashService.updateCashier(order.getOrderId(),distance, carFuelConsumption,
-                amountOfPassengers, driverSalary, carNeedsService, isVip);
-
+        cashService.updateCashier(order.getOrderId(), distance, carFuelConsumption,
+                amountOfPassengers, category, carNeedsService, isVip);
+        double additionalDriverSalary = cashService.getDriverSalary(driverId);
+        persService.changeDriverSalary(driverId, additionalDriverSalary);
 
     }
 

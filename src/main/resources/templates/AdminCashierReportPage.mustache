@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<a href="/admin/orders/{{orderId}}">
+    <button>Turn back</button>
+</a>
+
+
+<br/>
+<div>Current Cashier report</div>
+
+{{#cashId}}
+    <a>Cashier id {{cashId}}</a>
+{{/cashId}}
+<br/>
+{{#orderId}}
+    Order id {{orderId}}
+{{/orderId}}
+<br/>
+{{#bookingCash}}
+    <a>Booking cash {{bookingCash}}</a>;
+{{/bookingCash}}
+<br/>
+{{#carServiceCash}}
+    <a> Car Service Cash {{carServiceCash}}</a>;
+{{/carServiceCash}}
+<br/>
+{{#driverSalaryCash}}
+    <a>Driver Salary Cash{{driverSalaryCash}}</a>;
+{{/driverSalaryCash}}
+<br/>
+{{#fuelCash}}
+    <a>FuelCash {{fuelCash}}</a>;
+{{/fuelCash}}
+<br/>
+{{#balance}}
+    <a> Balance {{balance}}</a>;
+{{/balance}}
+<br/>
+</body>

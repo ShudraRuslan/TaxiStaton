@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+<a href="/admin/orders">
+    <button>Turn back</button>
+</a>
+<br/>
+
+<a href="/admin/user/{{userId}}">Get more info about client</a>
+
+{{#driverId}}
+    <br/>
+    <a href="/admin/drivers/{{driverId}}">Get more info about driver</a>
+{{/driverId}}
+
+{{#carId}}
+    <br/>
+    <a href="/admin/cars/{{carId}}">Get more info about car</a>
+{{/carId}}
+{{#cashId}}
+    <br/>
+    <a href="/admin/cashier/{{cashId}}">Get more info about cashier</a>
+{{/cashId}}
+</body>

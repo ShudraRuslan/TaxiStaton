@@ -6,12 +6,24 @@
 
 <body>
 
-<a href="/admin"><button>Turn back</button></a>
-<a href="/admin/cashier"><button>Go to cashier panel</button></a>
-<a href="/admin/orders"><button>Go to order panel</button></a>
-<a href="/admin/drivers"><button>Go to driver panel</button></a>
-<a href="/admin/user"><button>Go to user panel</button></a>
-<a href="/client"><button>Go to client panel</button></a>
+<a href="/admin">
+    <button>Turn back</button>
+</a>
+<a href="/admin/cashier">
+    <button>Go to cashier panel</button>
+</a>
+<a href="/admin/orders">
+    <button>Go to order panel</button>
+</a>
+<a href="/admin/drivers">
+    <button>Go to driver panel</button>
+</a>
+<a href="/admin/user">
+    <button>Go to user panel</button>
+</a>
+<a href="/client">
+    <button>Go to client panel</button>
+</a>
 
 
 <div>Add a new car</div>
@@ -40,6 +52,7 @@
 <table>
     <thead>
     <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Mileage</th>
         <th>FuelConsumption</th>
@@ -52,6 +65,7 @@
     <tbody>
     {{#cars}}
         <tr>
+            <td>{{carId}}</td>
             <td>{{name}}</td>
             <td>{{mileage}}</td>
             <td>{{fuelConsumption}}</td>

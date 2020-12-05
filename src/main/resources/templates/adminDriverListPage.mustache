@@ -16,7 +16,7 @@
 <a href="/admin/cars">
     <button>Go to car panel</button>
 </a>
-<a href="/admin/orderss">
+<a href="/admin/orders">
     <button>Go to order panel</button>
 </a>
 <a href="/admin/user">
@@ -28,9 +28,12 @@
 
 <div>Add a new driver</div>
 <form method="post">
-    <input type="text" name="name" placeholder="Name">
-    <input type="number" name="salary" placeholder="Salary">
-    <input type="number" name="mileage" placeholder="Mileage">
+    <label>
+        <input type="text" name="name" placeholder="Name">
+    </label>
+    <label>
+        <input type="number" name="mileage" placeholder="Mileage">
+    </label>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}">
     <button type="submit">Add new Driver</button>
     <button type="reset">Reset</button>
@@ -40,6 +43,7 @@
 <table>
     <thead>
     <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Category</th>
         <th>Salary</th>
@@ -51,6 +55,7 @@
     <tbody>
     {{#drivers}}
         <tr>
+            <td>{{driverId}}</td>
             <td>{{name}}</td>
             <td>{{category}}</td>
             <td>{{salary}}</td>

@@ -1,7 +1,6 @@
 package com.example.demo.Services.ServicesRealization;
 
 
-import com.example.demo.Services.MainClasses.DriverInfo.Driver;
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
 import com.example.demo.Services.MainClasses.Roles.User;
@@ -25,35 +24,35 @@ public final class OrderFulfillmentService {
         return order;
     }
 
-    public boolean checkIfIsCompleted(Long  orderId){
+    public boolean checkIfIsCompleted(Long orderId) {
         Orders order = repos.getOrderByOrderId(orderId);
-        return order.getStatus()==OrderStatus.isCompleted;
+        return order.getStatus() == OrderStatus.isCompleted;
 
     }
 
-    public void setOrderStatus(Long id, OrderStatus status){
+    public void setOrderStatus(Long id, OrderStatus status) {
         Orders order = repos.getOrderByOrderId(id);
         order.setStatus(status);
         repos.save(order);
     }
 
-    public void serCarId(Long orderId,Long carId){
+    public void serCarId(Long orderId, Long carId) {
         Orders order = repos.getOrderByOrderId(orderId);
         order.setCarId(carId);
         repos.save(order);
     }
 
-    public void serDriverId(Long orderId,Long driverId){
+    public void serDriverId(Long orderId, Long driverId) {
         Orders order = repos.getOrderByOrderId(orderId);
         order.setDriverId(driverId);
         repos.save(order);
     }
 
-    public OrderStatus getOrderStatus(Long orderId){
+    public OrderStatus getOrderStatus(Long orderId) {
         return repos.getOrderByOrderId(orderId).getStatus();
     }
 
-    public Orders getOrderById(Long id){
+    public Orders getOrderById(Long id) {
         return repos.getOrderByOrderId(id);
     }
 
@@ -62,7 +61,7 @@ public final class OrderFulfillmentService {
         return (List<Orders>) repos.findAll();
     }
 
-    public  List<Orders> getOrdersByStatus(OrderStatus status){
+    public List<Orders> getOrdersByStatus(OrderStatus status) {
         return repos.getAllOrdersByStatus(status);
     }
 
@@ -77,10 +76,23 @@ public final class OrderFulfillmentService {
         }
     }
 
-    public void deleteOrdersByStatus(OrderStatus status){
+    public void deleteOrdersByStatus(OrderStatus status) {
         List<Orders> orders = repos.getAllOrdersByStatus(status);
         deleteOperation(orders);
+    }
 
+    public Long getCashierIdFromOrder(Long orderId) {
+        try {
+            return repos.getCashierIdFromOrder(orderId);
+        } catch (Exception e) {
+            return 0L;
+        }
+    }
+
+    public int getNumberOfOrdersByStatus(OrderStatus status) {
+        if (status == OrderStatus.isCancelled) {
+            return repos.numberOfCancelledOrders();
+        } else return repos.numberOfCompletedOrders();
     }
 
 
