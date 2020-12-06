@@ -131,7 +131,6 @@ public class PersonnelService {
     }
 
 
-
     public void deleteDriverById(Long id) {
 
         List<Driver> list = new ArrayList<>();
@@ -151,15 +150,15 @@ public class PersonnelService {
 
     public void changeDriverSalary(Long id, double additionSalary) {
         Driver driver = repos.getByDriverId(id);
-        driver.setSalary(driver.getSalary()+additionSalary);
+        driver.setSalary(driver.getSalary() + additionSalary);
         repos.save(driver);
     }
 
-    public int getTotalCompletedOrders(Long id){
+    public int getTotalCompletedOrders(Long id) {
         return repos.getTotalCountOfOrders(id);
     }
 
-    public int getTodayCompletedOrders(Long id){
+    public int getTodayCompletedOrders(Long id) {
         return repos.getTodayCountOfOrders(id);
     }
 }

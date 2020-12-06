@@ -1,12 +1,9 @@
 package com.example.demo.Services.MainClasses.CashierInfo;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 public class Cashier {
@@ -22,11 +19,11 @@ public class Cashier {
     private double balance;
 
 
-    public Cashier(){
+    public Cashier() {
     }
 
-    public Cashier(Long orderId){
-        this.orderId=orderId;
+    public Cashier(Long orderId) {
+        this.orderId = orderId;
     }
 
     public Long getId() {

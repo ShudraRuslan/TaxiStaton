@@ -35,8 +35,8 @@ public class AdminCashierController {
 
     @PostMapping
     public String getInfoAboutOrder(@RequestParam(defaultValue = "0") Long orderId,
-                          Map<String, Object> model,
-                          @RequestParam String select) {
+                                    Map<String, Object> model,
+                                    @RequestParam String select) {
         if (orderId != 0) {
 
             try {
@@ -49,18 +49,16 @@ public class AdminCashierController {
                 model.put("carServiceCash", result.getCarServiceCash());
                 model.put("orderId", orderId);
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
                 model.put("response", "There are no order with this id!");
             }
 
             return "adminCashierPage";
-        }
-        else if (select.equals("s1")) {
+        } else if (select.equals("s1")) {
 
             fillingTheModel(model);
-        }
-        else {
+        } else {
 
             try {
 
@@ -82,20 +80,19 @@ public class AdminCashierController {
     }
 
     @GetMapping("{cashier}")
-    public String currentCashierInfo(@PathVariable Cashier cashier,Map<String,Object> model)
-    {
+    public String currentCashierInfo(@PathVariable Cashier cashier, Map<String, Object> model) {
         model.put("balance", cashier.getBalance());
         model.put("bookingCash", cashier.getBookingCash());
         model.put("driverSalaryCash", cashier.getDriverSalaryCash());
         model.put("fuelCash", cashier.getFuelCash());
         model.put("carServiceCash", cashier.getCarServiceCash());
-        model.put("orderId",cashier.getOrderId());
-        model.put("cashId",cashier.getId());
-        return "AdminCashierReportPage";
+        model.put("orderId", cashier.getOrderId());
+        model.put("cashId", cashier.getId());
+        return "adminCashierReportPage";
     }
 
     @GetMapping("/cleanCancelled")
-    public String cleanCancelledOrders(){
+    public String cleanCancelledOrders() {
         service.cleanCashierFromCancelledOrders();
         return "redirect:/admin/cashier";
 

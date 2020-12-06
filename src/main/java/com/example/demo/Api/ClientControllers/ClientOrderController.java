@@ -74,7 +74,6 @@ public class ClientOrderController {
         Long carId = carService.findAppropriateCar(amountOfPassengers, distance);
 
 
-
         double payload = cashService.getCurrentBookingCash(distance, amountOfPassengers, isVip);
 
 

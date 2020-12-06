@@ -1,6 +1,5 @@
 package com.example.demo.Api;
 
-import com.example.demo.Services.MainClasses.Roles.Role;
 import com.example.demo.Services.MainClasses.Roles.User;
 import com.example.demo.Services.ServicesRealization.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
@@ -35,14 +33,17 @@ public class AuthorizationController {
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
 
-        if (clientService.checkIfAlreadyExists(user.getUsername())) {
-            model.put("message", "User with this nickname already exists!");
+        if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
+            model.put("message", "Please fill in all fields!");
             return "registrationPage";
         }
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        clientService.saveUser(user);
-        return "redirect:/login";
+        boolean result = clientService.createUser(user);
+        if (result) {
+            return "redirect:/login";
+        } else {
+            model.put("message", "User with this username already exists!");
+            return "registrationPage";
+        }
     }
 
 

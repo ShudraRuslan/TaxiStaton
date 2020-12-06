@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminNavigationController {
 
     @GetMapping
-    public String navigation(){
+    public String navigation() {
         return "adminNavigationPage";
     }
 

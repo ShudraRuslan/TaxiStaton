@@ -1,13 +1,11 @@
 package com.example.demo.Services.MainClasses.CarInfo;
 
-import com.sun.istack.NotNull;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Entity
 @EnableAutoConfiguration
@@ -90,7 +88,6 @@ public class Car {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     @Override

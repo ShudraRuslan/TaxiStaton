@@ -3,6 +3,8 @@ package com.example.demo.Api.AdminControllers;
 
 import com.example.demo.Services.MainClasses.DriverInfo.Driver;
 import com.example.demo.Services.MainClasses.DriverInfo.DriverStatus;
+import com.example.demo.Services.MainClasses.OrderInfo.Orders;
+import com.example.demo.Services.ServicesRealization.OrderFulfillmentService;
 import com.example.demo.Services.ServicesRealization.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +20,12 @@ import java.util.Map;
 public class AdminDriverController {
 
     private final PersonnelService service;
+    private final OrderFulfillmentService orderService;
 
     @Autowired
-    public AdminDriverController(PersonnelService service) {
+    public AdminDriverController(PersonnelService service, OrderFulfillmentService orderService) {
         this.service = service;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -50,7 +54,7 @@ public class AdminDriverController {
     public String addDriver(Map<String, Object> model,
                             @RequestParam(defaultValue = "") String name,
                             @RequestParam(defaultValue = "-1") double mileage) {
-        boolean result = service.addNewDriverToPersonnel(name,  mileage);
+        boolean result = service.addNewDriverToPersonnel(name, mileage);
         if (result)
             model.put("response", "Completed!");
         else model.put("response", "Something bad happened! Try again!");
@@ -70,8 +74,8 @@ public class AdminDriverController {
 
     @PostMapping("{driver}/salary")
     public String changeDriverSalary(@PathVariable Driver driver, @RequestParam double salary) {
-        if (salary>=0)
-        service.changeDriverSalary(driver.getDriverId(),salary);
+        if (salary >= 0)
+            service.changeDriverSalary(driver.getDriverId(), salary);
 
         return "redirect:/admin/drivers/{driver}";
     }
@@ -84,8 +88,13 @@ public class AdminDriverController {
         model.put("salary", driver.getSalary());
         model.put("status", driver.getStatus());
         model.put("mileage", driver.getMileage());
-        model.put("todayOrders",service.getTodayCompletedOrders(driver.getDriverId()));
-        model.put("totalOrders",service.getTotalCompletedOrders(driver.getDriverId()));
+        model.put("todayOrders", service.getTodayCompletedOrders(driver.getDriverId()));
+        model.put("totalOrders", service.getTotalCompletedOrders(driver.getDriverId()));
+        List<Orders> orders = orderService.getOrdersWithDriver(driver.getDriverId());
+        if (orders.size() == 0)
+            model.put("orders", "No orders with this driver at the moment!");
+        else
+            model.put("orders", orders);
         return "adminDriverEditPage";
     }
 }

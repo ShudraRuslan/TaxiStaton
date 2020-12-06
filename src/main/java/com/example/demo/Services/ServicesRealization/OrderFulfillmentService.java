@@ -88,6 +88,13 @@ public final class OrderFulfillmentService {
         } else return repos.numberOfCompletedOrders();
     }
 
+    public List<Orders> getOrdersWithDriver(Long driverId) {
+        return repos.getAllOrdersByDriverId(driverId);
+    }
+
+    public List<Orders> getOrdersWithCar(Long carId) {
+        return repos.getAllOrdersByCarId(carId);
+    }
 
 }
 

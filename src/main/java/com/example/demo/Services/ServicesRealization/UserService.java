@@ -6,8 +6,10 @@ import com.example.demo.Services.MainClasses.repos.ClientRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,10 +21,16 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public boolean checkIfAlreadyExists(String nickname) {
-        return repos.existsByUsername(nickname);
+    public boolean createUser(User user) {
+        if (repos.existsByUsername(user.getUsername())) {
+            return false;
+        }
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        repos.save(user);
+        return true;
     }
-
 
     public boolean haveEnoughMoney(Long clientId, double payload) {
         return repos.getClientById(clientId).getCash() >= payload;
@@ -37,11 +45,11 @@ public class UserService implements UserDetailsService {
 
     public void changeClientPassword(Long clientId, String password) {
         User user = repos.getClientById(clientId);
-        user.setPassword(password);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         repos.save(user);
     }
 
-    public void changeClientUsername(Long clientId, String username){
+    public void changeClientUsername(Long clientId, String username) {
         User user = repos.getClientById(clientId);
         user.setUsername(username);
         repos.save(user);
@@ -73,26 +81,21 @@ public class UserService implements UserDetailsService {
         repos.save(user);
     }
 
-    public void saveUser(User user) {
-        repos.save(user);
-    }
-
 
     public List<User> clientReport() {
         return (List<User>) repos.findAll();
     }
 
-    public void deleteUserById(Long id){
+    public void deleteUserById(Long id) {
         User user = repos.getClientById(id);
         repos.delete(user);
     }
 
-    public boolean checkIfExists(Long id){
+    public boolean checkIfExists(Long id) {
         try {
             User result = repos.getClientById(id);
             return result != null;
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
     }

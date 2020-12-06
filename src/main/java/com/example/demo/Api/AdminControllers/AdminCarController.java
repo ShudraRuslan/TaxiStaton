@@ -2,7 +2,9 @@ package com.example.demo.Api.AdminControllers;
 
 import com.example.demo.Services.MainClasses.CarInfo.Car;
 import com.example.demo.Services.MainClasses.CarInfo.CarStatus;
+import com.example.demo.Services.MainClasses.OrderInfo.Orders;
 import com.example.demo.Services.ServicesRealization.CarService;
+import com.example.demo.Services.ServicesRealization.OrderFulfillmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,12 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class AdminCarController {
     private final CarService service;
+    private final OrderFulfillmentService orderService;
 
     @Autowired
-    public AdminCarController(CarService service) {
+    public AdminCarController(CarService service, OrderFulfillmentService orderService) {
         this.service = service;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -78,6 +82,11 @@ public class AdminCarController {
         model.put("enginePower", car.getEnginePower());
         model.put("capacity", car.getCapacity());
         model.put("status", car.getStatus());
+        List<Orders> orders = orderService.getOrdersWithCar(car.getCarId());
+        if (orders.size() == 0)
+            model.put("orders", "No orders with this car at the moment!");
+        else
+            model.put("orders", orders);
         return "adminCarEditPage";
     }
 

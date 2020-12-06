@@ -36,16 +36,16 @@ public class ClientSettingsController {
                               @RequestParam(defaultValue = "") String username,
                               @RequestParam(defaultValue = "") String password,
                               @RequestParam(defaultValue = "0") double additionalCash,
-                              Map<String,Object> model) {
-        if(!username.equals("")){
-            service.changeClientUsername(user.getId(),username);
+                              Map<String, Object> model) {
+        if (!username.equals("")) {
+            service.changeClientUsername(user.getId(), username);
         }
 
-        if(!password.equals("")){
-            service.changeClientPassword(user.getId(),password);
+        if (!password.equals("")) {
+            service.changeClientPassword(user.getId(), password);
         }
-        if(additionalCash!=0){
-            service.changeClientCash(user.getId(),-additionalCash);
+        if (additionalCash != 0) {
+            service.changeClientCash(user.getId(), -additionalCash);
         }
 
         User changedUser = service.getClientById(user.getId());
@@ -54,7 +54,6 @@ public class ClientSettingsController {
         model.put("vip", changedUser.isVip());
         model.put("id", changedUser.getId());
         return "clientSettingsPage";
-
 
 
     }

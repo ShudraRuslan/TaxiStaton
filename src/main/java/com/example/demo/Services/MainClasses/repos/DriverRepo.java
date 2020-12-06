@@ -2,7 +2,6 @@ package com.example.demo.Services.MainClasses.repos;
 
 import com.example.demo.Services.MainClasses.DriverInfo.Driver;
 import com.example.demo.Services.MainClasses.DriverInfo.DriverStatus;
-import org.hibernate.persister.entity.Loadable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

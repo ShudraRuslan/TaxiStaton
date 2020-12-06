@@ -53,4 +53,33 @@
 {{#response}}
     {{response}}
 {{/response}}
+
+<div>Orders with this car</div>
+<table>
+    <thead>
+    <tr>
+        <th>OrderId</th>
+        <th>CarId</th>
+        <th>DriverId</th>
+        <th>Amount of Passengers</th>
+        <th>Distance</th>
+        <th>Status</th>
+        <th>UserId</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#orders}}
+        <tr>
+            <td>{{orderId}}</td>
+            <td>{{carId}}</td>
+            <td>{{driverId}}</td>
+            <td>{{amountOfPassengers}}</td>
+            <td>{{distance}}</td>
+            <td>{{status}}</td>
+            <td>{{clientId}}</td>
+        </tr>
+    {{/orders}}
+    </tbody>
+</table>
 </body>

@@ -22,7 +22,7 @@ public class AdminOrderController {
     private final CashierService cashService;
 
     @Autowired
-    public AdminOrderController(OrderFulfillmentService service, UserService userService,CashierService cashService) {
+    public AdminOrderController(OrderFulfillmentService service, UserService userService, CashierService cashService) {
         this.service = service;
         this.userService = userService;
         this.cashService = cashService;
@@ -33,7 +33,7 @@ public class AdminOrderController {
         model.put("orders", service.orderReport());
         model.put("cancelled", service.getNumberOfOrdersByStatus(OrderStatus.isCancelled));
         model.put("completed", service.getNumberOfOrdersByStatus(OrderStatus.isCompleted));
-        return "AdminOrderListPage";
+        return "adminOrderListPage";
     }
 
     @PostMapping
@@ -51,7 +51,7 @@ public class AdminOrderController {
             model.put("cancelled", service.getNumberOfOrdersByStatus(OrderStatus.isCancelled));
         }
 
-        return "AdminOrderListPage";
+        return "adminOrderListPage";
 
     }
 
@@ -83,9 +83,9 @@ public class AdminOrderController {
         Long cashId = cashService.getCashierIdFromOrder(order.getOrderId());
         if (cashId != 0)
             model.put("cashId", cashId);
-        if(model.isEmpty())
-            model.put("response","No info to show!");
-        return "AdminCurrentOrderPage";
+        if (model.isEmpty())
+            model.put("response", "No info to show!");
+        return "adminCurrentOrderPage";
 
     }
 }
