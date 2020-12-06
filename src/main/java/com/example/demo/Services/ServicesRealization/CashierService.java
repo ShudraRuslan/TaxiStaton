@@ -138,6 +138,20 @@ public class CashierService {
         deleteOperation(cashiers);
     }
 
+    public Long getCashierIdFromOrder(Long orderId) {
+        Long id;
+        try {
+            id = repos.getCashierIdFromOrder(orderId);
+            Cashier result = repos.getById(id);
+            if (result != null)
+                return id;
+            else return 0L;
+        } catch (Exception e) {
+            return 0L;
+        }
+
+    }
+
 
 }
 

@@ -81,13 +81,6 @@ public final class OrderFulfillmentService {
         deleteOperation(orders);
     }
 
-    public Long getCashierIdFromOrder(Long orderId) {
-        try {
-            return repos.getCashierIdFromOrder(orderId);
-        } catch (Exception e) {
-            return 0L;
-        }
-    }
 
     public int getNumberOfOrdersByStatus(OrderStatus status) {
         if (status == OrderStatus.isCancelled) {

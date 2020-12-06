@@ -25,5 +25,8 @@ public interface CashierRepo extends CrudRepository<Cashier, Long> {
     @Query("SELECT c.id from Cashier c INNER JOIN Orders o ON c.orderId=o.orderId WHERE o.status=2")
     List<Long> getIdsForCashOfCancelledOrders();
 
+    @Query("SELECT c.id FROM Cashier c WHERE c.orderId=?1")
+    Long getCashierIdFromOrder(Long id);
+
 
 }

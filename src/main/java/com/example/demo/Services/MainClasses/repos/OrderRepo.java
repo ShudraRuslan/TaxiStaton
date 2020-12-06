@@ -12,9 +12,6 @@ public interface OrderRepo extends CrudRepository<Orders, Long> {
 
     List<Orders> getAllOrdersByStatus(OrderStatus status);
 
-    @Query("SELECT c.id FROM Cashier c WHERE c.orderId=?1")
-    Long getCashierIdFromOrder(Long id);
-
     @Query("SELECT COUNT(o.orderId ) FROM Orders o WHERE o.status=2")
     int numberOfCancelledOrders();
 

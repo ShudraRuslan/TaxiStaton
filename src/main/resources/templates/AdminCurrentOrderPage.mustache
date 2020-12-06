@@ -9,8 +9,9 @@
     <button>Turn back</button>
 </a>
 <br/>
-
+{{#userId}}
 <a href="/admin/user/{{userId}}">Get more info about client</a>
+{{/userId}}
 
 {{#driverId}}
     <br/>
@@ -21,8 +22,13 @@
     <br/>
     <a href="/admin/cars/{{carId}}">Get more info about car</a>
 {{/carId}}
+
 {{#cashId}}
     <br/>
     <a href="/admin/cashier/{{cashId}}">Get more info about cashier</a>
 {{/cashId}}
+
+{{#response}}
+    {{response}}
+{{/response}}
 </body>

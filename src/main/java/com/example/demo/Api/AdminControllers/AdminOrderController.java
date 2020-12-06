@@ -2,7 +2,9 @@ package com.example.demo.Api.AdminControllers;
 
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
+import com.example.demo.Services.ServicesRealization.CashierService;
 import com.example.demo.Services.ServicesRealization.OrderFulfillmentService;
+import com.example.demo.Services.ServicesRealization.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,14 @@ import java.util.Map;
 public class AdminOrderController {
 
     private final OrderFulfillmentService service;
+    private final UserService userService;
+    private final CashierService cashService;
 
     @Autowired
-    public AdminOrderController(OrderFulfillmentService service) {
+    public AdminOrderController(OrderFulfillmentService service, UserService userService,CashierService cashService) {
         this.service = service;
+        this.userService = userService;
+        this.cashService = cashService;
     }
 
     @GetMapping
@@ -72,10 +78,13 @@ public class AdminOrderController {
             model.put("driverId", order.getDriverId());
         if (order.getCarId() != 0)
             model.put("carId", order.getCarId());
-        model.put("userId", order.getClientId());
-        Long cashId = service.getCashierIdFromOrder(order.getOrderId());
+        if (userService.checkIfExists(order.getClientId()))
+            model.put("userId", order.getClientId());
+        Long cashId = cashService.getCashierIdFromOrder(order.getOrderId());
         if (cashId != 0)
             model.put("cashId", cashId);
+        if(model.isEmpty())
+            model.put("response","No info to show!");
         return "AdminCurrentOrderPage";
 
     }

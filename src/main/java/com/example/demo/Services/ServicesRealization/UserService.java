@@ -87,6 +87,16 @@ public class UserService implements UserDetailsService {
         repos.delete(user);
     }
 
+    public boolean checkIfExists(Long id){
+        try {
+            User result = repos.getClientById(id);
+            return result != null;
+        }catch (Exception e)
+        {
+            return false;
+        }
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
