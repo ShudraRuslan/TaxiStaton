@@ -1,3 +1,3 @@
 package com.example.demo.Services.MainClasses.DriverInfo;
 
-public enum DriverStatus {free, atWork, defaultStat;}
+public enum DriverStatus {free, atWork}
