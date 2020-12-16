@@ -92,7 +92,7 @@ public class AdminDriverController {
         model.put("totalOrders", service.getTotalCompletedOrders(driver.getDriverId()));
         List<Orders> orders = orderService.getOrdersWithDriver(driver.getDriverId());
         if (orders.size() == 0)
-            model.put("orders", "No orders with this driver at the moment!");
+            model.put("response", "No orders with this driver at the moment!");
         else
             model.put("orders", orders);
         return "adminDriverEditPage";

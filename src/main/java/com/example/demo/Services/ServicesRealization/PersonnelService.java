@@ -115,10 +115,6 @@ public class PersonnelService {
         return null;
     }
 
-    public List<Driver> getDriversByStatus(DriverStatus status) {
-        return repos.getAllDriversByStatus(status);
-    }
-
     private void deleteOperation(List<Driver> list) {
         if (list.size() == 0) return;
         int iterator = 0;
@@ -160,6 +156,15 @@ public class PersonnelService {
 
     public int getTodayCompletedOrders(Long id) {
         return repos.getTodayCountOfOrders(id);
+    }
+
+    public boolean checkIfExists(Long driverId) {
+        try {
+            Driver result = repos.getByDriverId(driverId);
+            return result != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

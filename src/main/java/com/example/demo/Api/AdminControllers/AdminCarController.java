@@ -83,8 +83,9 @@ public class AdminCarController {
         model.put("capacity", car.getCapacity());
         model.put("status", car.getStatus());
         List<Orders> orders = orderService.getOrdersWithCar(car.getCarId());
-        if (orders.size() == 0)
-            model.put("orders", "No orders with this car at the moment!");
+        if (orders.size() == 0){
+            model.put("response", "No orders with this car at the moment!");
+        }
         else
             model.put("orders", orders);
         return "adminCarEditPage";

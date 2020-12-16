@@ -2,9 +2,7 @@ package com.example.demo.Api.AdminControllers;
 
 import com.example.demo.Services.MainClasses.OrderInfo.OrderStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
-import com.example.demo.Services.ServicesRealization.CashierService;
-import com.example.demo.Services.ServicesRealization.OrderFulfillmentService;
-import com.example.demo.Services.ServicesRealization.UserService;
+import com.example.demo.Services.ServicesRealization.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,12 +18,17 @@ public class AdminOrderController {
     private final OrderFulfillmentService service;
     private final UserService userService;
     private final CashierService cashService;
+    private final PersonnelService persService;
+    private final CarService carService;
 
     @Autowired
-    public AdminOrderController(OrderFulfillmentService service, UserService userService, CashierService cashService) {
+    public AdminOrderController(OrderFulfillmentService service, UserService userService, CashierService cashService,
+                                CarService carService, PersonnelService persService) {
         this.service = service;
         this.userService = userService;
         this.cashService = cashService;
+        this.persService = persService;
+        this.carService = carService;
     }
 
     @GetMapping
@@ -74,9 +77,9 @@ public class AdminOrderController {
     public String currentOrderPage(@PathVariable Orders order,
                                    Map<String, Object> model) {
 
-        if (order.getDriverId() != 0)
+        if (persService.checkIfExists(order.getDriverId()))
             model.put("driverId", order.getDriverId());
-        if (order.getCarId() != 0)
+        if (carService.checkIfExists(order.getCarId()))
             model.put("carId", order.getCarId());
         if (userService.checkIfExists(order.getClientId()))
             model.put("userId", order.getClientId());

@@ -90,9 +90,6 @@ public class CarService {
         return null;
     }
 
-    public List<Car> getCarsByStatus(CarStatus status) {
-        return repos.getCarByStatus(status);
-    }
 
     private boolean deleteOperation(List<Car> list) {
         if (list.size() == 0) return false;
@@ -105,16 +102,6 @@ public class CarService {
         return true;
     }
 
-
-    public boolean deleteAllCarByStatus(CarStatus status) {
-        List<Car> list = repos.getCarByStatus(status);
-        return deleteOperation(list);
-    }
-
-    public boolean deleteAllCars() {
-        List<Car> list = (List<Car>) repos.findAll();
-        return deleteOperation(list);
-    }
 
     public void deleteCarById(Long id) {
 
@@ -131,5 +118,14 @@ public class CarService {
 
     public Car getCarById(Long id) {
         return repos.getCarByCarId(id);
+    }
+
+    public boolean checkIfExists(Long carId) {
+        try {
+            Car result = repos.getCarByCarId(carId);
+            return result != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

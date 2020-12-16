@@ -5,81 +5,109 @@
 </head>
 
 <body>
+<div class="container mt-5">
+    <a href="/admin">
+        <button class='btn btn-primary' >Turn back</button>
+    </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">TaxiStation</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/cars">Car page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/drivers">Driver page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/user">User page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/orders">Order page</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/cashier">Cashier page</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-<a href="/admin">
-    <button>Turn back</button>
-</a>
-<a href="/admin/cashier">
-    <button>Go to cashier panel</button>
-</a>
-<a href="/admin/orders">
-    <button>Go to order panel</button>
-</a>
-<a href="/admin/drivers">
-    <button>Go to driver panel</button>
-</a>
-<a href="/admin/user">
-    <button>Go to user panel</button>
-</a>
-<a href="/client">
-    <button>Go to client panel</button>
-</a>
+    <div>Add a new car</div>
+    <form method="post">
+        <label>
+            <input type="text" name="name" placeholder="Name" autocomplete="off">
+        </label>
+        <label>
+            <input type="number" name="mileage" placeholder="Mileage" autocomplete="off">
+        </label>
+        <label>
+            <input type="number" name="fuelConsumption" placeholder="Fuel Consumption" autocomplete="off">
+        </label>
+        <label>
+            <input type="number" name="enginePower" placeholder="Engine Power" autocomplete="off">
+        </label>
+        <label>
+            <input type="number" name="capacity" placeholder="Capacity" autocomplete="off">
+        </label>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+        <button class='btn btn-primary'  type="submit">Add new car</button>
+        <button class='btn btn-primary' type="reset">Reset</button>
+    </form>
 
-
-<div>Add a new car</div>
-<form method="post">
-    <label>
-        <input type="text" name="name" placeholder="Name">
-    </label>
-    <label>
-        <input type="number" name="mileage" placeholder="Mileage">
-    </label>
-    <label>
-        <input type="number" name="fuelConsumption" placeholder="Fuel Consumption">
-    </label>
-    <label>
-        <input type="number" name="enginePower" placeholder="Engine Power">
-    </label>
-    <label>
-        <input type="number" name="capacity" placeholder="Capacity">
-    </label>
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}">
-    <button type="submit">Add new car</button>
-    <button type="reset">Reset</button>
-</form>
-
-<div>List of cars</div>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Mileage</th>
-        <th>FuelConsumption</th>
-        <th>EnginePower</th>
-        <th>Capacity</th>
-        <th>Status</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#cars}}
+    <div>List of cars</div>
+    <table>
+        <thead>
         <tr>
-            <td>{{carId}}</td>
-            <td>{{name}}</td>
-            <td>{{mileage}}</td>
-            <td>{{fuelConsumption}}</td>
-            <td>{{enginePower}}</td>
-            <td>{{capacity}}</td>
-            <td>{{status}}</td>
-            <td><a href="cars/{{carId}}">Edit car</a></td>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Mileage</th>
+            <th>FuelConsumption</th>
+            <th>EnginePower</th>
+            <th>Capacity</th>
+            <th>Status</th>
+            <th></th>
         </tr>
-    {{/cars}}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {{#cars}}
+            <tr>
+                <td>{{carId}}</td>
+                <td>{{name}}</td>
+                <td>{{mileage}}</td>
+                <td>{{fuelConsumption}}</td>
+                <td>{{enginePower}}</td>
+                <td>{{capacity}}</td>
+                <td>{{status}}</td>
+                <td><a href="cars/{{carId}}">Edit car</a></td>
+            </tr>
+        {{/cars}}
+        </tbody>
+    </table>
 
 
-{{#response}}
-    {{response}}
-{{/response}}
+    {{#response}}
+        {{response}}
+    {{/response}}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            crossorigin="anonymous"></script>
+</div>
 </body>
