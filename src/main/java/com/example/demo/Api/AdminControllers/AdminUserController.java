@@ -34,7 +34,6 @@ public class AdminUserController {
         model.put("username", user.getUsername());
         model.put("id", user.getId());
         model.put("roles", user.getRoles());
-        model.put("cash", user.getCash());
         model.put("vip", user.isVip());
         return "adminUserEditPage";
     }

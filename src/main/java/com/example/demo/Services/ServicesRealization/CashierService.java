@@ -66,7 +66,7 @@ public class CashierService {
     private void changeDriverSalaryCash(Long orderId, double distance, int amountOfPassengers, Category category) {
 
         Cashier cashier = repos.getByOrderId(orderId);
-        double orderSalary = (amountOfPassengers * 5 + distance) * category.ordinal();
+        double orderSalary = (amountOfPassengers * 5 + distance) * (category.ordinal()+1);
         cashier.setDriverSalaryCash(orderSalary);
         repos.save(cashier);
     }
@@ -149,6 +149,11 @@ public class CashierService {
         } catch (Exception e) {
             return 0L;
         }
+
+    }
+
+    public void deleteDriverSalary(Long driverId){
+        repos.deleteDriverSalary(driverId);
 
     }
 

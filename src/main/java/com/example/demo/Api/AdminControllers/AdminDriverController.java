@@ -4,6 +4,7 @@ package com.example.demo.Api.AdminControllers;
 import com.example.demo.Services.MainClasses.DriverInfo.Driver;
 import com.example.demo.Services.MainClasses.DriverInfo.DriverStatus;
 import com.example.demo.Services.MainClasses.OrderInfo.Orders;
+import com.example.demo.Services.ServicesRealization.CashierService;
 import com.example.demo.Services.ServicesRealization.OrderFulfillmentService;
 import com.example.demo.Services.ServicesRealization.PersonnelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ public class AdminDriverController {
 
     private final PersonnelService service;
     private final OrderFulfillmentService orderService;
+    private final CashierService cashierService;
 
     @Autowired
-    public AdminDriverController(PersonnelService service, OrderFulfillmentService orderService) {
+    public AdminDriverController(PersonnelService service, OrderFulfillmentService orderService,
+                                 CashierService cashierService) {
         this.service = service;
         this.orderService = orderService;
+        this.cashierService = cashierService;
     }
 
     @GetMapping
@@ -44,6 +48,7 @@ public class AdminDriverController {
     @GetMapping("{driver}/deleteDriver")
     public String deleteDriver(@PathVariable Driver driver) {
         service.deleteDriverById(driver.getDriverId());
+        cashierService.deleteDriverSalary(driver.getDriverId());
 
         return "redirect:/admin/drivers";
 

@@ -28,5 +28,8 @@ public interface CashierRepo extends CrudRepository<Cashier, Long> {
     @Query("SELECT c.id FROM Cashier c WHERE c.orderId=?1")
     Long getCashierIdFromOrder(Long id);
 
+    @Query("UPDATE Cashier c SET c.driverSalaryCash=0 WHERE c.orderId in (SELECT o.orderId FROM Orders o WHERE o.driverId=?1)")
+    void deleteDriverSalary(Long driverId);
+
 
 }
